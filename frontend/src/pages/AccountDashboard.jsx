@@ -75,7 +75,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
           )}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+        <div className="account-grid">
           <div className="form-group">
             <label className="form-label">Full Name</label>
             {isEditing ? (

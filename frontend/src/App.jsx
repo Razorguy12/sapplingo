@@ -35,7 +35,7 @@ function App() {
               </Link>
             </div>
             
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <div className="header-actions">
               <span style={{ color: 'var(--text-dark)' }}>Hi, <strong>{currentUser.name}</strong></span>
               
               {!currentUser.is_admin && (

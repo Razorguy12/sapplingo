@@ -6,7 +6,7 @@ from sqlalchemy import or_
 from typing import List
 from groq import Groq
 import models.models as models
-from database import engine, get_db
+from database import engine, get_db, SessionLocal
 import schemas
 from datetime import date
 
@@ -21,6 +21,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+def on_startup():
+    db = SessionLocal()
+    try:
+        seed_db(db)
+    finally:
+        db.close()
 
 # Groq Setup
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
