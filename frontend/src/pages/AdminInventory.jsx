@@ -15,7 +15,7 @@ const AdminInventory = ({ currentUser }) => {
     }
     const fetchPlants = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/plants');
+        const res = await axios.get('https://sapplingo.onrender.com/api/plants');
         setPlants(res.data);
       } catch (error) {
         console.error('Error fetching inventory', error);

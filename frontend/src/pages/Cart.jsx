@@ -18,7 +18,7 @@ const Cart = ({ currentUser }) => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/cart/${currentUser.id}`);
+      const res = await axios.get(`https://sapplingo.onrender.com/api/cart/${currentUser.id}`);
       setCartItems(res.data);
     } catch (error) {
       console.error('Error fetching cart', error);
@@ -29,7 +29,7 @@ const Cart = ({ currentUser }) => {
 
   const removeItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/cart/${itemId}`);
+      await axios.delete(`https://sapplingo.onrender.com/api/cart/${itemId}`);
       fetchCart();
     } catch (error) {
       alert('Failed to remove item');
@@ -38,7 +38,7 @@ const Cart = ({ currentUser }) => {
 
   const handleCheckout = async () => {
     try {
-      await axios.post(`http://localhost:8000/api/checkout/${currentUser.id}`);
+      await axios.post(`https://sapplingo.onrender.com/api/checkout/${currentUser.id}`);
       alert("Pickup slot booked successfully!");
       navigate('/');
     } catch (error) {

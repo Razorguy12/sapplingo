@@ -32,7 +32,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/orders/${currentUser.id}`);
+      const res = await axios.get(`https://sapplingo.onrender.com/api/orders/${currentUser.id}`);
       setOrders(res.data);
     } catch (error) {
       console.error('Error fetching orders', error);
@@ -43,7 +43,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.put(`http://localhost:8000/api/users/${currentUser.id}`, {
+      const res = await axios.put(`https://sapplingo.onrender.com/api/users/${currentUser.id}`, {
         name,
         email,
         phone_number: phoneNumber,

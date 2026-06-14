@@ -30,7 +30,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/chat', { message: userMessage.content });
+      const response = await axios.post('https://sapplingo.onrender.com/api/chat', { message: userMessage.content });
       setMessages(prev => [...prev, { role: 'bot', content: response.data.response }]);
     } catch (error) {
       console.error('Error fetching chat:', error);

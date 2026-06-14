@@ -12,7 +12,7 @@ const PlantDetail = ({ currentUser }) => {
   useEffect(() => {
     const fetchPlant = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/plants/${id}`);
+        const response = await axios.get(`https://sapplingo.onrender.com/api/plants/${id}`);
         setPlant(response.data);
         setActiveImage(response.data.image_url);
         setLoading(false);
@@ -41,7 +41,7 @@ const PlantDetail = ({ currentUser }) => {
 
   const handleAddToCart = async () => {
     try {
-      await axios.post('http://localhost:8000/api/cart', {
+      await axios.post('https://sapplingo.onrender.com/api/cart', {
         user_id: currentUser.id,
         plant_id: plant.id,
         quantity: 1

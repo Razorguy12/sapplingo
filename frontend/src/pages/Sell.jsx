@@ -52,7 +52,7 @@ const Sell = () => {
     }
     setAiLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/api/generate-details', {
+      const response = await axios.post('https://sapplingo.onrender.com/api/generate-details', {
         plant_name: formData.name
       });
       const data = response.data;
@@ -84,7 +84,7 @@ const Sell = () => {
         rating: 5.0, // Default rating for new seller
         extra_images: validExtraImages.join(',')
       };
-      await axios.post('http://localhost:8000/api/plants', payload);
+      await axios.post('https://sapplingo.onrender.com/api/plants', payload);
       alert('Plant listed successfully!');
       navigate('/buy');
     } catch (error) {

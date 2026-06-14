@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/plants?limit=6');
+        const response = await axios.get('https://sapplingo.onrender.com/api/plants?limit=6');
         setSamplePlants(response.data);
       } catch (error) {
         console.error('Failed to fetch sample plants', error);

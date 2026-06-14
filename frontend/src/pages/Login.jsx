@@ -23,10 +23,10 @@ const Login = ({ onLogin }) => {
     
     try {
       if (isForgotPassword) {
-        const res = await axios.post('http://localhost:8000/api/forgot-password', { email });
+        const res = await axios.post('https://sapplingo.onrender.com/api/forgot-password', { email });
         setForgotMessage(res.data.message);
       } else if (isRegistering) {
-        await axios.post('http://localhost:8000/api/register', {
+        await axios.post('https://sapplingo.onrender.com/api/register', {
           name,
           username,
           email,
@@ -34,13 +34,13 @@ const Login = ({ onLogin }) => {
           dob: dob || null,
           password
         });
-        const loginRes = await axios.post('http://localhost:8000/api/login', {
+        const loginRes = await axios.post('https://sapplingo.onrender.com/api/login', {
           username,
           password
         });
         onLogin(loginRes.data);
       } else {
-        const loginRes = await axios.post('http://localhost:8000/api/login', {
+        const loginRes = await axios.post('https://sapplingo.onrender.com/api/login', {
           username,
           password
         });
