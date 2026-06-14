@@ -281,10 +281,19 @@ def get_orders(user_id: int, db: Session = Depends(get_db)):
 
 @app.get("/api/seed")
 def seed_db(db: Session = Depends(get_db)):
-    if not db.query(models.User).filter(models.User.username == "azhar").first():
+    admin1 = db.query(models.User).filter(models.User.username == "azhar").first()
+    if not admin1:
         db.add(models.User(name="Azhar", username="azhar", password="Azba@2001", is_admin=True))
+    else:
+        admin1.is_admin = True
+        
+    admin2 = db.query(models.User).filter(models.User.username == "azhar2006").first()
+    if not admin2:
         db.add(models.User(name="Azhar 2006", username="azhar2006", password="Azba@2001", is_admin=True))
-        db.commit()
+    else:
+        admin2.is_admin = True
+        
+    db.commit()
 
     # Clear existing data if there are less than 15 plants, and reseed
     if db.query(models.Plant).count() < 15:
