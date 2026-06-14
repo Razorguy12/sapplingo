@@ -281,7 +281,7 @@ def get_orders(user_id: int, db: Session = Depends(get_db)):
 
 @app.get("/api/seed")
 def seed_db(db: Session = Depends(get_db)):
-    if db.query(models.User).count() == 0:
+    if not db.query(models.User).filter(models.User.username == "azhar").first():
         db.add(models.User(name="Azhar", username="azhar", password="Azba@2001", is_admin=True))
         db.add(models.User(name="Azhar 2006", username="azhar2006", password="Azba@2001", is_admin=True))
         db.commit()
