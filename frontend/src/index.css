@@ -982,4 +982,10 @@ body::before {
     width: 100%;
     justify-content: center;
   }
+  .opaque-panel {
+    padding: 15px !important;
+  }
+  .container {
+    padding: 20px 10px !important;
+  }
 }

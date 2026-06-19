@@ -24,9 +24,8 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
     fontFamily: 'inherit',
     outline: 'none',
     boxSizing: 'border-box',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
+    wordWrap: 'break-word',
+    overflowWrap: 'break-word'
   };
 
   useEffect(() => {
@@ -142,9 +141,9 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
                 
                 <div style={{ marginBottom: '15px' }}>
                   {order.items.map(item => (
-                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '5px' }}>
-                      <span>{item.quantity}x {item.plant.name}</span>
-                      <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '5px', gap: '10px' }}>
+                      <span style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>{item.quantity}x {item.plant.name}</span>
+                      <span style={{ flexShrink: 0 }}>${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
