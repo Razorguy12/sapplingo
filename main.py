@@ -180,6 +180,14 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     if user.username == 'azhar' or user.username == 'azhar2006':
         raise HTTPException(status_code=403, detail="Cannot delete super admin")
+        
+    # Manually delete dependent records to avoid foreign key constraints failing
+    db.query(models.CartItem).filter(models.CartItem.user_id == user_id).delete()
+    orders = db.query(models.Order).filter(models.Order.user_id == user_id).all()
+    for order in orders:
+        db.query(models.OrderItem).filter(models.OrderItem.order_id == order.id).delete()
+        db.delete(order)
+        
     db.delete(user)
     db.commit()
     return {"message": "User deleted"}

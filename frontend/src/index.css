@@ -365,12 +365,15 @@ body::before {
 }
 
 .sell-form {
-  background: white;
+  background: rgba(143, 209, 79, 0.15); /* Light green tint */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(47, 105, 59, 0.4);
   padding: 40px;
   border-radius: var(--border-radius-md);
   box-shadow: var(--box-shadow);
   width: 100%;
-  max-width: 600px;
+  max-width: 75%;
 }
 
 .form-group {
@@ -579,7 +582,7 @@ body::before {
 
 .login-box {
   width: 100%;
-  max-width: 400px;
+  max-width: 30%;
   padding: 40px;
   text-align: center;
 }
@@ -864,5 +867,9 @@ body::before {
   }
   .range-slider {
     flex: 1;
+  }
+  .login-box, .sell-form {
+    max-width: 90%;
+    width: 100%;
   }
 }
