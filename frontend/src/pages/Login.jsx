@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Leaf, User, Lock, ArrowRight, UserPlus, Type, Mail, Phone, Calendar, Eye, EyeOff } from 'lucide-react';
+import { Leaf, User, Lock, ArrowRight, ArrowLeft, UserPlus, Type, Mail, Phone, Calendar, Eye, EyeOff } from 'lucide-react';
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, onBack }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [forgotMessage, setForgotMessage] = useState('');
@@ -56,6 +56,33 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-container animate-fade-in">
+      {onBack && (
+        <button
+          onClick={onBack}
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            background: 'rgba(255,255,255,0.6)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(47,105,59,0.3)',
+            borderRadius: '8px',
+            padding: '8px 14px',
+            cursor: 'pointer',
+            color: 'var(--primary-color)',
+            fontWeight: '500',
+            fontSize: '0.9rem',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.9)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.6)'}
+        >
+          <ArrowLeft size={18} /> Back to Home
+        </button>
+      )}
       <div className="login-box glass-panel">
         <div className="login-header">
           <Leaf size={48} color="var(--primary-color)" className="login-icon animate-float" />

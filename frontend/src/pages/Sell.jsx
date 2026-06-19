@@ -21,10 +21,31 @@ const Sell = () => {
     soil_type: ''
   });
 
+  const convertDriveUrl = (url) => {
+    // Convert any Google Drive share/view link to a direct CDN embed URL
+    const match = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) {
+      return `https://lh3.googleusercontent.com/d/${match[1]}`;
+    }
+    // Handle /open?id= format
+    const match2 = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+    if (match2) {
+      return `https://lh3.googleusercontent.com/d/${match2[1]}`;
+    }
+    // Handle uc?id= or uc?export=view&id= format
+    const match3 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match3 && url.includes('drive.google.com')) {
+      return `https://lh3.googleusercontent.com/d/${match3[1]}`;
+    }
+    return url;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'is_indoor') {
       setFormData(prev => ({ ...prev, is_indoor: value === 'true' }));
+    } else if (name === 'image_url') {
+      setFormData(prev => ({ ...prev, image_url: convertDriveUrl(value) }));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -32,7 +53,7 @@ const Sell = () => {
 
   const handleExtraImageChange = (index, value) => {
     const newImages = [...extraImages];
-    newImages[index] = value;
+    newImages[index] = convertDriveUrl(value);
     setExtraImages(newImages);
   };
 
@@ -202,11 +223,24 @@ const Sell = () => {
             type="url" 
             name="image_url" 
             className="form-input" 
-            placeholder="https://example.com/image.jpg" 
+            placeholder="https://example.com/image.jpg  or paste a Google Drive share link" 
             value={formData.image_url} 
             onChange={handleChange} 
             required 
           />
+          {formData.image_url && (
+            <div style={{ marginTop: '10px' }}>
+              <img
+                src={formData.image_url}
+                alt="Preview"
+                style={{ maxWidth: '100%', maxHeight: '160px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(47,105,59,0.3)' }}
+                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
+              />
+              <p style={{ display: 'none', color: '#ef4444', fontSize: '0.85rem', marginTop: '4px' }}>
+                ⚠️ Image could not be loaded. Make sure the file is shared publicly in Google Drive.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="form-group">

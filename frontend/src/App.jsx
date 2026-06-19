@@ -6,6 +6,7 @@ import Buy from './pages/Buy';
 import Sell from './pages/Sell';
 import PlantDetail from './pages/PlantDetail';
 import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInventory from './pages/AdminInventory';
 import AdminUsers from './pages/AdminUsers';
@@ -17,6 +18,7 @@ import { Leaf, LogOut, Shield, ShoppingCart, User } from 'lucide-react';
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [cartCount, setCartCount] = useState(0);
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     if (!currentUser || currentUser.is_admin) return;
@@ -42,10 +44,14 @@ function App() {
   }, [currentUser]);
 
   if (!currentUser) {
-    return <Login onLogin={(user) => {
-      window.history.replaceState(null, '', '/');
-      setCurrentUser(user);
-    }} />;
+    if (showLogin) {
+      return <Login onLogin={(user) => {
+        window.history.replaceState(null, '', '/');
+        setCurrentUser(user);
+        setShowLogin(false);
+      }} onBack={() => setShowLogin(false)} />;
+    }
+    return <LandingPage onGetStarted={() => setShowLogin(true)} />;
   }
 
   return (
