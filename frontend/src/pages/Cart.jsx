@@ -72,17 +72,17 @@ const Cart = ({ currentUser }) => {
           <div>
             <div className="cart-items" style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '30px' }}>
               {cartItems.map(item => (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '15px', background: 'transparent', borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
-                  <img src={item.plant.image_url} alt={item.plant.name} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} />
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{ margin: '0 0 5px 0', color: '#111827', fontWeight: 'bold' }}>{item.plant.name}</h3>
-                    <div style={{ color: '#374151', fontSize: '0.9rem', fontWeight: '500' }}>Qty: {item.quantity}</div>
+                <div key={item.id} className="cart-item-row">
+                  <img src={item.plant.image_url} alt={item.plant.name} className="cart-item-image" />
+                  <div className="cart-item-info">
+                    <h3>{item.plant.name}</h3>
+                    <div className="cart-item-qty">Qty: {item.quantity}</div>
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontWeight: 'bold', color: '#065f46', fontSize: '1.2rem', marginBottom: '10px' }}>
+                  <div className="cart-item-actions">
+                    <div className="cart-item-price">
                       ${(item.plant.price * item.quantity).toFixed(2)}
                     </div>
-                    <button onClick={() => removeItem(item.id)} className="btn glass-btn" style={{ padding: '5px 10px', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.9rem' }}>
+                    <button onClick={() => removeItem(item.id)} className="btn glass-btn cart-remove-btn">
                       <Trash2 size={16} /> Remove
                     </button>
                   </div>
@@ -90,14 +90,14 @@ const Cart = ({ currentUser }) => {
               ))}
             </div>
 
-            <div style={{ borderTop: '1px solid rgba(0,0,0,0.1)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-              <div>
-                <div style={{ color: 'var(--text-light)', marginBottom: '5px' }}>Total Amount</div>
-                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--primary-color)' }}>
+            <div className="cart-summary-row">
+              <div className="cart-summary-total">
+                <div className="cart-summary-label">Total Amount</div>
+                <div className="cart-summary-value">
                   ${totalAmount.toFixed(2)}
                 </div>
               </div>
-              <button onClick={handleCheckout} className="btn btn-primary glass-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '15px 30px', fontSize: '1.1rem' }}>
+              <button onClick={handleCheckout} className="btn btn-primary glass-btn cart-checkout-btn">
                 <CreditCard size={20} /> Book Pickup Slots
               </button>
             </div>
