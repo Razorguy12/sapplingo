@@ -30,6 +30,7 @@ const Cart = ({ currentUser }) => {
   const removeItem = async (itemId) => {
     try {
       await axios.delete(`https://sapplingo.onrender.com/api/cart/${itemId}`);
+      window.dispatchEvent(new Event('cartUpdated'));
       fetchCart();
     } catch (error) {
       alert('Failed to remove item');
@@ -39,6 +40,7 @@ const Cart = ({ currentUser }) => {
   const handleCheckout = async () => {
     try {
       await axios.post(`https://sapplingo.onrender.com/api/checkout/${currentUser.id}`);
+      window.dispatchEvent(new Event('cartUpdated'));
       alert("Pickup slot booked successfully!");
       navigate('/');
     } catch (error) {

@@ -46,6 +46,7 @@ const PlantDetail = ({ currentUser }) => {
         plant_id: plant.id,
         quantity: 1
       });
+      window.dispatchEvent(new Event('cartUpdated'));
       alert('Successfully added to cart!');
     } catch (error) {
       console.error('Failed to add to cart', error);

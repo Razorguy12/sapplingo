@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import Buy from './pages/Buy';
@@ -15,6 +16,30 @@ import { Leaf, LogOut, Shield, ShoppingCart, User } from 'lucide-react';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    if (!currentUser || currentUser.is_admin) return;
+
+    const fetchCartCount = async () => {
+      try {
+        const res = await axios.get(`https://sapplingo.onrender.com/api/cart/${currentUser.id}`);
+        const count = res.data.reduce((sum, item) => sum + item.quantity, 0);
+        setCartCount(count);
+      } catch (err) {
+        console.error('Error fetching cart count', err);
+      }
+    };
+
+    fetchCartCount();
+
+    const handleCartUpdate = () => {
+      fetchCartCount();
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdate);
+    return () => window.removeEventListener('cartUpdated', handleCartUpdate);
+  }, [currentUser]);
 
   if (!currentUser) {
     return <Login onLogin={(user) => {
@@ -44,7 +69,29 @@ function App() {
                     <User size={18} /> Account
                   </Link>
                   <Link to="/cart" className="btn btn-secondary glass-btn" style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', color: 'var(--text-dark)' }}>
-                    <ShoppingCart size={18} /> Pickup Basket
+                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                      <ShoppingCart size={18} />
+                      {cartCount > 0 && (
+                        <span style={{
+                          position: 'absolute',
+                          top: '-8px',
+                          right: '-10px',
+                          background: '#ef4444',
+                          color: 'white',
+                          borderRadius: '50%',
+                          width: '18px',
+                          height: '18px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.7rem',
+                          fontWeight: 'bold'
+                        }}>
+                          {cartCount}
+                        </span>
+                      )}
+                    </div>
+                    Pickup Basket
                   </Link>
                 </>
               )}
