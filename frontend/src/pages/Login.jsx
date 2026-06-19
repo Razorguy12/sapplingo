@@ -24,25 +24,25 @@ const Login = ({ onLogin }) => {
     
     try {
       if (isForgotPassword) {
-        const res = await axios.post('https://sapplingo.onrender.com/api/forgot-password', { email });
+        const res = await axios.post('https://sapplingo.onrender.com/api/forgot-password', { email: email.trim() });
         setForgotMessage(res.data.message);
       } else if (isRegistering) {
         await axios.post('https://sapplingo.onrender.com/api/register', {
-          name,
-          username,
-          email,
-          phone_number: phoneNumber,
+          name: name.trim(),
+          username: username.trim(),
+          email: email.trim(),
+          phone_number: phoneNumber.trim(),
           dob: dob || null,
           password
         });
         const loginRes = await axios.post('https://sapplingo.onrender.com/api/login', {
-          username,
+          username: username.trim(),
           password
         });
         onLogin(loginRes.data);
       } else {
         const loginRes = await axios.post('https://sapplingo.onrender.com/api/login', {
-          username,
+          username: username.trim(),
           password
         });
         onLogin(loginRes.data);

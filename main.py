@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from typing import List
 from groq import Groq
 import models.models as models
@@ -121,7 +121,10 @@ def generate_details(request: schemas.GenerateDetailsRequest):
 @app.post("/api/register", response_model=schemas.User)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(models.User).filter(
-        or_(models.User.username == user.username, models.User.email == user.email)
+        or_(
+            func.lower(models.User.username) == user.username.lower(), 
+            func.lower(models.User.email) == user.email.lower()
+        )
     ).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username or email already registered")
@@ -149,7 +152,10 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
 @app.post("/api/login", response_model=schemas.User)
 def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(models.User).filter(
-        or_(models.User.username == user.username, models.User.email == user.username),
+        or_(
+            func.lower(models.User.username) == user.username.lower(), 
+            func.lower(models.User.email) == user.username.lower()
+        ),
         models.User.password == user.password
     ).first()
     if not db_user:

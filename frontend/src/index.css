@@ -988,4 +988,16 @@ body::before {
   .container {
     padding: 20px 10px !important;
   }
+  .chat-window {
+    position: fixed;
+    bottom: 90px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90vw;
+    min-width: 0;
+    max-width: 400px;
+    transform-origin: bottom center;
+  }
 }
