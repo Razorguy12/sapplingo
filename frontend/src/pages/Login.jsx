@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Leaf, User, Lock, ArrowRight, UserPlus, Type, Mail, Phone, Calendar } from 'lucide-react';
+import { Leaf, User, Lock, ArrowRight, UserPlus, Type, Mail, Phone, Calendar, Eye, EyeOff } from 'lucide-react';
 
 const Login = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -12,6 +12,7 @@ const Login = ({ onLogin }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dob, setDob] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -134,12 +135,13 @@ const Login = ({ onLogin }) => {
                   <div className="input-group">
                     <Calendar size={20} className="input-icon" color="var(--primary-color)" />
                     <input 
-                      type="date" 
-                      placeholder="Date of Birth" 
+                      type={dob ? "date" : "text"}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => { if (!e.target.value) e.target.type = "text"; }}
+                      placeholder="Date of Birth (Optional)" 
                       className="login-input glass" 
                       value={dob}
                       onChange={(e) => { setDob(e.target.value); setError(''); }}
-                      required 
                     />
                   </div>
                 </>
@@ -159,13 +161,19 @@ const Login = ({ onLogin }) => {
               <div className="input-group">
                 <Lock size={20} className="input-icon" color="var(--primary-color)" />
                 <input 
-                  type="password" 
+                  type={showPassword ? "text" : "password"} 
                   placeholder="Password" 
                   className="login-input glass" 
                   value={password}
                   onChange={(e) => { setPassword(e.target.value); setError(''); }}
                   required 
                 />
+                <div 
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: 'absolute', right: '15px', cursor: 'pointer', display: 'flex', alignItems: 'center', opacity: 0.7 }}
+                >
+                  {showPassword ? <EyeOff size={20} color="var(--text-light)" /> : <Eye size={20} color="var(--text-light)" />}
+                </div>
               </div>
 
               {!isRegistering && (
