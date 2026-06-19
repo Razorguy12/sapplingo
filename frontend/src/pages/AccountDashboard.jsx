@@ -23,7 +23,10 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
     width: '100%',
     fontFamily: 'inherit',
     outline: 'none',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
   };
 
   useEffect(() => {

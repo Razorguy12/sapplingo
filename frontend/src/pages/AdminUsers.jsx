@@ -92,7 +92,7 @@ const AdminUsers = ({ currentUser }) => {
         {showAddForm && (
           <div className="glass-card animate-slide-up" style={{ padding: '20px', marginBottom: '20px', borderRadius: 'var(--border-radius-md)' }}>
             <h3 style={{ color: 'var(--primary-color)', marginBottom: '15px' }}>Add New User</h3>
-            <form onSubmit={handleAddUser} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+            <form onSubmit={handleAddUser} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
               <input 
                 type="text" placeholder="Full Name" required className="login-input glass" 
                 style={{ padding: '10px 15px' }}
