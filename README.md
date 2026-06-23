@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🌿 Sapplingo (Plantify)</h1>
+  <h1>🌿 Sapplingo </h1>
   <p><strong>Your Ultimate Plant E-Commerce Platform & Botanical Assistant</strong></p>
 
   [![Live Demo](https://img.shields.io/badge/Live_Demo-sapplingo--1.onrender.com-success?style=for-the-badge)](https://sapplingo-1.onrender.com/)
