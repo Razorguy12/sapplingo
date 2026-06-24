@@ -82,7 +82,7 @@ const Buy = () => {
           <option value="outdoor">Outdoor Only</option>
         </select>
 
-        <div className="slider-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto' }}>
+        <div className="slider-group max-price-slider" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <label style={{ color: 'var(--text-dark)', fontSize: '0.9rem', width: '110px' }}>Max Price: ${maxPrice}</label>
           <input type="range" min="0" max="150" step="5" value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="range-slider" />
         </div>

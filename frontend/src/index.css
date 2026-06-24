@@ -247,6 +247,27 @@ body::before {
   flex: 0 0 calc(33.333% - 14px);
 }
 
+@media (max-width: 768px) {
+  .dashboard-scroll > * {
+    flex: 0 0 calc(85% - 10px);
+  }
+}
+
+/* Responsive Form Rows */
+.form-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+}
+
 /* Plant Card */
 .plant-card {
   background: white;
@@ -772,6 +793,17 @@ body::before {
   padding: 15px;
   align-items: center;
 }
+
+.max-price-slider {
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .max-price-slider {
+    margin-left: 0;
+  }
+}
+
 
 .filter-select {
   padding: 10px;

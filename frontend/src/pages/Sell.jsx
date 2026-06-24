@@ -157,7 +157,7 @@ const Sell = () => {
       <form className="sell-form animate-slide-up" onSubmit={handleSubmit}>
         <h2 style={{ marginBottom: '30px', color: 'var(--primary-color)' }}>List Your Plant for Sale</h2>
 
-        <div className="form-group" style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+        <div className="form-group form-row">
           <div style={{ flex: 1 }}>
             <label className="form-label">Plant Name</label>
             <input
@@ -195,7 +195,7 @@ const Sell = () => {
           />
         </div>
 
-        <div className="form-group" style={{ display: 'flex', gap: '20px' }}>
+        <div className="form-group form-row">
           <div style={{ flex: 1 }}>
             <label className="form-label">Climate</label>
             <select name="climate" className="form-input" value={formData.climate} onChange={handleChange} required>
@@ -226,7 +226,7 @@ const Sell = () => {
           />
         </div>
 
-        <div className="form-group" style={{ display: 'flex', gap: '20px' }}>
+        <div className="form-group form-row">
           <div style={{ flex: 1 }}>
             <label className="form-label">Age</label>
             <input

@@ -477,35 +477,65 @@
 .reminder-urgency.soon   { background: #e8f0e9; color: #2d6a4f; }
 
 /* =====================
-   RESPONSIVE — collapse sidebar to icons at ≤768px
+   RESPONSIVE — Bottom Navigation on Mobile (≤768px)
    ===================== */
 @media (max-width: 768px) {
   .sidebar {
-    width: 60px;
+    width: 100%;
+    height: 70px;
+    top: auto;
+    bottom: 0;
+    flex-direction: row;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
   }
-  .sidebar-logo-text,
-  .nav-link span,
-  .sidebar-user-info,
+  
+  .sidebar-logo,
+  .sidebar-user,
   .nav-section-label,
-  .nav-badge {
-    display: none;
+  .nav-badge,
+  .sidebar-logout span {
+    display: none; /* Hide non-essential nav elements on mobile */
   }
-  .sidebar-logo {
-    justify-content: center;
-    padding: 18px 0;
+  
+  .sidebar-nav {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    overflow: visible;
   }
+  
   .nav-link {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 12px;
+    font-size: 10px;
     justify-content: center;
-    padding: 10px;
   }
-  .sidebar-user {
-    justify-content: center;
-    padding: 12px 0 16px;
+  
+  .nav-link svg {
+    margin: 0;
   }
+  
   .main {
-    margin-left: 60px;
+    margin-left: 0;
+    padding-bottom: 70px; /* Space for bottom nav */
   }
+  
+  .topbar {
+    padding: 12px 16px;
+  }
+  
+  .content {
+    padding: 16px;
+  }
+  
   .content-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 22px;
   }
 }
