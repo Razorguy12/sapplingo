@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, text
 from typing import List
 from groq import Groq
 import models.models as models
@@ -11,6 +11,13 @@ import schemas
 from datetime import date
 
 models.Base.metadata.create_all(bind=engine)
+
+# Auto-migrate missing columns for Render deployment
+try:
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS nursery_id INTEGER REFERENCES nurseries(id);"))
+except Exception as e:
+    print(f"Skipping auto-migration: {e}")
 
 app = FastAPI(title="Saplinggo API")
 
