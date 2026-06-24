@@ -13,19 +13,16 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
   const [loadingOrders, setLoadingOrders] = useState(true);
 
   const fieldStyle = {
-    padding: '12px 16px',
-    background: '#ffffff',
-    borderRadius: 'var(--border-radius-sm)',
-    border: '2px solid var(--primary-color)',
-    boxShadow: '0 4px 8px rgba(47, 105, 59, 0.15)',
-    color: 'var(--text-dark)',
-    fontSize: '1rem',
+    padding: '10px 14px',
+    background: '#f8faf7',
+    borderRadius: '8px',
+    border: '1px solid #d4e0d5',
+    color: '#1a3a2a',
+    fontSize: '13px',
     width: '100%',
     fontFamily: 'inherit',
     outline: 'none',
-    boxSizing: 'border-box',
-    wordWrap: 'break-word',
-    overflowWrap: 'break-word'
+    boxSizing: 'border-box'
   };
 
   useEffect(() => {
@@ -34,7 +31,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`https://sapplingo.onrender.com/api/orders/${currentUser.id}`);
+      const res = await axios.get(`http://127.0.0.1:8001/api/orders/${currentUser.id}`);
       setOrders(res.data);
     } catch (error) {
       console.error('Error fetching orders', error);
@@ -45,7 +42,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.put(`https://sapplingo.onrender.com/api/users/${currentUser.id}`, {
+      const res = await axios.put(`http://127.0.0.1:8001/api/users/${currentUser.id}`, {
         name,
         email,
         phone_number: phoneNumber,
@@ -60,101 +57,108 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
   };
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '40px 20px', maxWidth: '900px' }}>
-      <div className="opaque-panel animate-slide-up" style={{ padding: '30px', marginBottom: '30px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)' }}>
-            <User size={28} /> Account Information
+    <div className="animate-fade-in" style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <h1 className="page-title">Account Details</h1>
+      <p className="page-subtitle">Manage your personal information and view your past orders.</p>
+
+      <div className="panel animate-slide-up">
+        <div className="panel-header">
+          <h2 className="panel-title">
+            <User size={18} /> Profile Information
           </h2>
           {!isEditing ? (
-            <button onClick={() => setIsEditing(true)} className="btn btn-secondary glass-btn" style={{ padding: '8px 16px', display: 'flex', gap: '5px' }}>
-              <Edit size={18} /> Edit
+            <button onClick={() => setIsEditing(true)} className="topbar-btn" style={{ padding: '4px 10px' }}>
+              <Edit size={14} /> Edit
             </button>
           ) : (
-            <button onClick={handleSave} className="btn btn-primary glass-btn" style={{ padding: '8px 16px', display: 'flex', gap: '5px' }}>
-              <Save size={18} /> Save
+            <button onClick={handleSave} className="topbar-btn primary" style={{ padding: '4px 10px' }}>
+              <Save size={14} /> Save
             </button>
           )}
         </div>
+        <div className="panel-body">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div className="form-group" style={{ marginBottom: '0' }}>
+              <label className="form-label" style={{ fontSize: '12px', color: '#6b8f70' }}>Full Name</label>
+              {isEditing ? (
+                <input type="text" style={fieldStyle} value={name} onChange={e => setName(e.target.value)} />
+              ) : (
+                <div style={fieldStyle}>{currentUser.name}</div>
+              )}
+            </div>
 
-        <div className="account-grid">
-          <div className="form-group">
-            <label className="form-label">Full Name</label>
-            {isEditing ? (
-              <input type="text" style={fieldStyle} value={name} onChange={e => setName(e.target.value)} />
-            ) : (
-              <div style={fieldStyle}>{currentUser.name}</div>
-            )}
-          </div>
+            <div className="form-group" style={{ marginBottom: '0' }}>
+              <label className="form-label" style={{ fontSize: '12px', color: '#6b8f70' }}>Email</label>
+              {isEditing ? (
+                <input type="email" style={fieldStyle} value={email} onChange={e => setEmail(e.target.value)} />
+              ) : (
+                <div style={fieldStyle}>{currentUser.email || 'Not provided'}</div>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label className="form-label">Email</label>
-            {isEditing ? (
-              <input type="email" style={fieldStyle} value={email} onChange={e => setEmail(e.target.value)} />
-            ) : (
-              <div style={fieldStyle}>{currentUser.email || 'Not provided'}</div>
-            )}
-          </div>
+            <div className="form-group" style={{ marginBottom: '0' }}>
+              <label className="form-label" style={{ fontSize: '12px', color: '#6b8f70' }}>Phone Number</label>
+              {isEditing ? (
+                <input type="text" style={fieldStyle} value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+              ) : (
+                <div style={fieldStyle}>{currentUser.phone_number || 'Not provided'}</div>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label className="form-label">Phone Number</label>
-            {isEditing ? (
-              <input type="text" style={fieldStyle} value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
-            ) : (
-              <div style={fieldStyle}>{currentUser.phone_number || 'Not provided'}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Date of Birth</label>
-            {isEditing ? (
-              <input type="date" style={fieldStyle} value={dob} onChange={e => setDob(e.target.value)} />
-            ) : (
-              <div style={fieldStyle}>
-                {currentUser.dob ? currentUser.dob : 'Not provided'} 
-                {currentUser.age && ` (Age: ${currentUser.age})`}
-              </div>
-            )}
+            <div className="form-group" style={{ marginBottom: '0' }}>
+              <label className="form-label" style={{ fontSize: '12px', color: '#6b8f70' }}>Date of Birth</label>
+              {isEditing ? (
+                <input type="date" style={fieldStyle} value={dob} onChange={e => setDob(e.target.value)} />
+              ) : (
+                <div style={fieldStyle}>
+                  {currentUser.dob ? currentUser.dob : 'Not provided'} 
+                  {currentUser.age && ` (Age: ${currentUser.age})`}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="opaque-panel animate-slide-up" style={{ padding: '30px', animationDelay: '0.1s' }}>
-        <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '20px' }}>
-          <Package size={28} /> Past Orders
-        </h2>
-
-        {loadingOrders ? (
-          <div>Loading orders...</div>
-        ) : orders.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '20px', color: 'var(--text-light)' }}>
-            You have no past orders yet.
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            {orders.map(order => (
-              <div key={order.id} style={{ border: '1px solid rgba(0,0,0,0.1)', borderRadius: '8px', padding: '15px', background: 'rgba(255,255,255,0.6)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid rgba(0,0,0,0.1)', paddingBottom: '10px' }}>
-                  <div style={{ fontWeight: 'bold' }}>Order #{order.id}</div>
-                  <div style={{ color: 'var(--text-light)' }}>{new Date(order.created_at).toLocaleDateString()}</div>
+      <div className="panel animate-slide-up" style={{ animationDelay: '0.1s' }}>
+        <div className="panel-header">
+          <h2 className="panel-title">
+            <Package size={18} /> Order History
+          </h2>
+        </div>
+        <div className="panel-body" style={{ padding: '0' }}>
+          {loadingOrders ? (
+            <div style={{ padding: '20px', fontSize: '13px', color: '#6b8f70' }}>Loading orders...</div>
+          ) : orders.length === 0 ? (
+            <div style={{ padding: '20px', fontSize: '13px', color: '#6b8f70', textAlign: 'center' }}>
+              You have no past orders yet.
+            </div>
+          ) : (
+            <div>
+              {orders.map(order => (
+                <div key={order.id} style={{ padding: '16px 20px', borderBottom: '0.5px solid #e8f0e9' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                    <div style={{ fontWeight: '600', fontSize: '14px', color: '#1a3a2a' }}>Order #{order.id}</div>
+                    <div style={{ color: '#6b8f70', fontSize: '12px' }}>{new Date(order.created_at).toLocaleDateString()}</div>
+                  </div>
+                  
+                  <div style={{ marginBottom: '12px' }}>
+                    {order.items.map(item => (
+                      <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#2d4a30', marginBottom: '6px' }}>
+                        <span>{item.quantity}x {item.plant.name}</span>
+                        <span>${(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div style={{ textAlign: 'right', fontWeight: '600', fontSize: '14px', color: '#2d6a4f' }}>
+                    Total: ${order.total_amount.toFixed(2)}
+                  </div>
                 </div>
-                
-                <div style={{ marginBottom: '15px' }}>
-                  {order.items.map(item => (
-                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '5px', gap: '10px' }}>
-                      <span style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>{item.quantity}x {item.plant.name}</span>
-                      <span style={{ flexShrink: 0 }}>${(item.price * item.quantity).toFixed(2)}</span>
-                    </div>
-                  ))}
-                </div>
-                
-                <div style={{ textAlign: 'right', fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary-color)' }}>
-                  Total: ${order.total_amount.toFixed(2)}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

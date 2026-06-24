@@ -9,7 +9,7 @@ const LandingPage = ({ onGetStarted }) => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
-        const res = await axios.get('https://sapplingo.onrender.com/api/plants?limit=9');
+        const res = await axios.get('http://127.0.0.1:8001/api/plants?limit=9');
         setPlants(res.data);
       } catch (err) {
         console.error('Failed to fetch plants', err);

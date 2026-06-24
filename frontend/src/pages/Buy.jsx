@@ -15,7 +15,7 @@ const Buy = () => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
-        const response = await axios.get('https://sapplingo.onrender.com/api/plants');
+        const response = await axios.get('http://127.0.0.1:8001/api/plants');
         setPlants(response.data);
       } catch (error) {
         console.error('Failed to fetch plants', error);

@@ -21,16 +21,34 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    const handleCareInsights = (e) => {
+      const plantName = e.detail?.plantName || 'plant';
+      setIsOpen(true);
+      setMessages(prev => [
+        ...prev, 
+        { role: 'bot', content: `You're asking about the **${plantName}**. Do you want general care factors or do u have something to ask in specific?` }
+      ]);
+    };
+
+    window.addEventListener('openCareInsights', handleCareInsights);
+    return () => window.removeEventListener('openCareInsights', handleCareInsights);
+  }, []);
+
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = { role: 'user', content: input };
+    const currentHistory = [...messages];
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      const response = await axios.post('https://sapplingo.onrender.com/api/chat', { message: userMessage.content });
+      const response = await axios.post('http://127.0.0.1:8001/api/chat', { 
+        message: userMessage.content,
+        history: currentHistory
+      });
       setMessages(prev => [...prev, { role: 'bot', content: response.data.response }]);
     } catch (error) {
       console.error('Error fetching chat:', error);

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Text, Boolean, Date, DateTime
+from sqlalchemy import Column, Integer, String, Float, Text, Boolean, Date, DateTime, ForeignKey
 from datetime import datetime
 from database import Base
 
@@ -6,6 +6,7 @@ class Plant(Base):
     __tablename__ = "plants"
 
     id = Column(Integer, primary_key=True, index=True)
+    nursery_id = Column(Integer, ForeignKey('nurseries.id'), index=True, nullable=True) # made nullable for backwards compatibility
     name = Column(String, index=True, nullable=False)
     scientific_name = Column(String, nullable=False)
     age = Column(String, nullable=True)
@@ -30,6 +31,16 @@ class User(Base):
     age = Column(Integer, nullable=True)
     password = Column(String, nullable=False)
     is_admin = Column(Boolean, default=False)
+
+class Nursery(Base):
+    __tablename__ = "nurseries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nursery_name = Column(String, nullable=False)
+    username = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=True)
+    phone_number = Column(String, nullable=True)
+    password = Column(String, nullable=False)
 
 from sqlalchemy.orm import relationship
 

@@ -1,7 +1,8 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 class PlantBase(BaseModel):
+    nursery_id: Optional[int] = None
     name: str
     scientific_name: str
     age: Optional[str] = None
@@ -23,8 +24,13 @@ class Plant(PlantBase):
     class Config:
         from_attributes = True
 
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
 class ChatRequest(BaseModel):
     message: str
+    history: Optional[List[ChatMessage]] = []
 
 class GenerateDetailsRequest(BaseModel):
     plant_name: str
@@ -55,6 +61,26 @@ class UserLogin(BaseModel):
 class User(UserBase):
     id: int
     is_admin: bool
+
+    class Config:
+        from_attributes = True
+
+class NurseryBase(BaseModel):
+    nursery_name: str
+    username: str
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+
+class NurseryCreate(NurseryBase):
+    password: str
+
+class NurseryLogin(BaseModel):
+    username: str
+    password: str
+
+class Nursery(NurseryBase):
+    id: int
+    role: str = "nursery"
 
     class Config:
         from_attributes = True

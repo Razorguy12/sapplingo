@@ -22,7 +22,7 @@ const AdminUsers = ({ currentUser }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('https://sapplingo.onrender.com/api/users');
+      const res = await axios.get('http://127.0.0.1:8001/api/users');
       setUsers(res.data);
     } catch (error) {
       console.error('Error fetching users', error);
@@ -34,7 +34,7 @@ const AdminUsers = ({ currentUser }) => {
   const deleteUser = async (id, username) => {
     if (window.confirm(`Are you sure you want to delete ${username}?`)) {
       try {
-        await axios.delete(`https://sapplingo.onrender.com/api/users/${id}`);
+        await axios.delete(`http://127.0.0.1:8001/api/users/${id}`);
         fetchData();
       } catch (error) {
         alert(error.response?.data?.detail || 'Failed to delete user');
@@ -45,7 +45,7 @@ const AdminUsers = ({ currentUser }) => {
   const makeAdmin = async (id, username) => {
     if (window.confirm(`Grant admin privileges to ${username}?`)) {
       try {
-        await axios.put(`https://sapplingo.onrender.com/api/users/${id}/admin`);
+        await axios.put(`http://127.0.0.1:8001/api/users/${id}/admin`);
         fetchData();
       } catch (error) {
         alert(error.response?.data?.detail || 'Failed to grant admin rights');
@@ -57,7 +57,7 @@ const AdminUsers = ({ currentUser }) => {
     e.preventDefault();
     setAddError('');
     try {
-      await axios.post('https://sapplingo.onrender.com/api/register', {
+      await axios.post('http://127.0.0.1:8001/api/register', {
         ...newUser,
         dob: newUser.dob || null
       });

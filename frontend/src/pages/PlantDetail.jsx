@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Star, Droplets, Sun, Home, Trees, MapPin } from 'lucide-react';
 
 const PlantDetail = ({ currentUser }) => {
   const { id } = useParams();
+  const location = useLocation();
+  const isFromCollection = location.state?.fromCollection;
   const [plant, setPlant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState('');
@@ -12,7 +14,7 @@ const PlantDetail = ({ currentUser }) => {
   useEffect(() => {
     const fetchPlant = async () => {
       try {
-        const response = await axios.get(`https://sapplingo.onrender.com/api/plants/${id}`);
+        const response = await axios.get(`http://127.0.0.1:8001/api/plants/${id}`);
         setPlant(response.data);
         setActiveImage(response.data.image_url);
         setLoading(false);
@@ -41,7 +43,7 @@ const PlantDetail = ({ currentUser }) => {
 
   const handleAddToCart = async () => {
     try {
-      await axios.post('https://sapplingo.onrender.com/api/cart', {
+      await axios.post('http://127.0.0.1:8001/api/cart', {
         user_id: currentUser.id,
         plant_id: plant.id,
         quantity: 1
@@ -52,6 +54,10 @@ const PlantDetail = ({ currentUser }) => {
       console.error('Failed to add to cart', error);
       alert('Failed to add to cart');
     }
+  };
+
+  const handleCareInsights = () => {
+    window.dispatchEvent(new CustomEvent('openCareInsights', { detail: { plantName: plant.name } }));
   };
 
   return (
@@ -130,9 +136,16 @@ const PlantDetail = ({ currentUser }) => {
           </div>
           
           {!currentUser?.is_admin && (
-            <button onClick={handleAddToCart} className="btn btn-primary glass-btn" style={{ width: '100%', marginTop: '30px', padding: '15px', fontSize: '1.1rem' }}>
-              Add to Pickup Basket
-            </button>
+            <div style={{ display: 'flex', gap: '15px', marginTop: '30px' }}>
+              <button onClick={handleAddToCart} className="btn btn-primary glass-btn" style={{ flex: 1, padding: '15px', fontSize: '1.1rem' }}>
+                {isFromCollection ? 'Order again' : 'Add to Pickup Basket'}
+              </button>
+              {isFromCollection && (
+                <button onClick={handleCareInsights} className="btn glass-btn" style={{ flex: 1, padding: '15px', fontSize: '1.1rem', background: 'transparent', border: '2px solid var(--primary-color)', color: 'var(--primary-color)', fontWeight: '500' }}>
+                  Get Care Insights
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>

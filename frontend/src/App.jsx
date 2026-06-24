@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Buy from './pages/Buy';
 import Sell from './pages/Sell';
@@ -12,8 +12,142 @@ import AdminInventory from './pages/AdminInventory';
 import AdminUsers from './pages/AdminUsers';
 import Cart from './pages/Cart';
 import AccountDashboard from './pages/AccountDashboard';
+import MyPlants from './pages/MyPlants';
 import Chatbot from './components/Chatbot';
-import { Leaf, LogOut, Shield, ShoppingCart, User } from 'lucide-react';
+import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box } from 'lucide-react';
+import './styles/dashboard.css';
+
+const API_URL = 'http://127.0.0.1:8001';
+
+// Helper component to handle active link state
+const NavLink = ({ to, icon: Icon, children, badge }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  return (
+    <Link to={to} className={`nav-link ${isActive ? 'active' : ''}`}>
+      <Icon size={18} />
+      <span>{children}</span>
+      {badge && <span className="nav-badge">{badge}</span>}
+    </Link>
+  );
+};
+
+// Inner App component to use useLocation hook
+function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+  };
+
+  return (
+    <div className="app-container">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <Link to="/" className="sidebar-logo">
+          <div className="sidebar-logo-icon">
+            <Leaf size={18} color="#74c69d" />
+          </div>
+          <span className="sidebar-logo-text">Saplinggo</span>
+        </Link>
+
+        <nav className="sidebar-nav">
+          <span className="nav-section-label">Main</span>
+          <NavLink to="/" icon={LayoutDashboard}>Dashboard</NavLink>
+
+          {!currentUser.is_admin && (
+            <>
+              <NavLink to="/buy" icon={ShoppingBag}>Browse Plants</NavLink>
+              {currentUser.role !== 'nursery' && (
+                <NavLink to="/sell" icon={Plus}>Sell a Plant</NavLink>
+              )}
+            </>
+          )}
+
+          {!currentUser.is_admin && currentUser.role !== 'nursery' && (
+            <>
+              <span className="nav-section-label">My Plants</span>
+              <NavLink to="/my-plants" icon={Archive}>My Collection</NavLink>
+              <NavLink to="/cart" icon={ShoppingCart} badge={cartCount > 0 ? cartCount : null}>Pickup Basket</NavLink>
+            </>
+          )}
+
+          {currentUser.is_admin && (
+            <>
+              <span className="nav-section-label">Admin</span>
+              <NavLink to="/admin/inventory" icon={Box}>Inventory</NavLink>
+              <NavLink to="/admin/users" icon={Users}>Users</NavLink>
+            </>
+          )}
+
+          <span className="nav-section-label">Account</span>
+          <NavLink to="/account" icon={User}>Account</NavLink>
+        </nav>
+
+        <div className="sidebar-user">
+          <div className="sidebar-avatar">
+            {getInitials(currentUser.nursery_name || currentUser.name)}
+          </div>
+          <div className="sidebar-user-info">
+            <div className="sidebar-user-name">{currentUser.nursery_name || currentUser.name}</div>
+            <div className="sidebar-user-role">{currentUser.role || (currentUser.is_admin ? 'Admin' : 'Plant Lover')}</div>
+          </div>
+          <button className="sidebar-logout" title="Logout" onClick={handleLogout}>
+            <LogOut size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="main">
+        <div className="topbar">
+          <div className="topbar-greeting">Hi, <span>{currentUser.nursery_name || currentUser.name}</span></div>
+          <div className="topbar-actions">
+            {!currentUser.is_admin && currentUser.role !== 'nursery' && (
+              <>
+                <Link to="/buy" className="topbar-btn">
+                  <Search size={15} /> Search plants
+                </Link>
+                <Link to="/cart" className="topbar-btn">
+                  <div className="cart-badge">
+                    <ShoppingCart size={16} />
+                    {cartCount > 0 && <span className="cart-badge-dot">{cartCount}</span>}
+                  </div>
+                  Basket
+                </Link>
+                <Link to="/sell" className="topbar-btn primary">
+                  + Sell a Plant
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="content">
+          <Routes>
+            <Route path="/" element={
+              currentUser.is_admin ? <AdminDashboard currentUser={currentUser} /> : 
+              <Home currentUser={currentUser} />
+            } />
+            <Route path="/admin/inventory" element={<AdminInventory currentUser={currentUser} />} />
+            <Route path="/admin/users" element={<AdminUsers currentUser={currentUser} />} />
+            <Route path="/cart" element={<Cart currentUser={currentUser} />} />
+            <Route path="/account" element={<AccountDashboard currentUser={currentUser} onUpdateUser={setCurrentUser} />} />
+            <Route path="/my-plants" element={<MyPlants currentUser={currentUser} />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/plant/:id" element={<PlantDetail currentUser={currentUser} />} />
+            <Route path="/sell" element={<Sell />} />
+          </Routes>
+        </div>
+      </div>
+
+      <Chatbot />
+    </div>
+  );
+}
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -21,11 +155,11 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
-    if (!currentUser || currentUser.is_admin) return;
+    if (!currentUser || currentUser.is_admin || currentUser.role === 'nursery') return;
 
     const fetchCartCount = async () => {
       try {
-        const res = await axios.get(`https://sapplingo.onrender.com/api/cart/${currentUser.id}`);
+        const res = await axios.get(`${API_URL}/api/cart/${currentUser.id}`);
         const count = res.data.reduce((sum, item) => sum + item.quantity, 0);
         setCartCount(count);
       } catch (err) {
@@ -56,78 +190,12 @@ function App() {
 
   return (
     <Router>
-      <div className="app-container">
-        <header className="header glass">
-          <div className="container header-content">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <Link to="/" className="logo text-shadow" style={{ textDecoration: 'none' }}>
-                <Leaf size={28} color="var(--primary-color)" />
-                Saplinggo
-              </Link>
-            </div>
-            
-            <div className="header-actions">
-              <span style={{ color: 'var(--text-dark)' }}>Hi, <strong>{currentUser.name}</strong></span>
-              
-              {!currentUser.is_admin && (
-                <>
-                  <Link to="/account" className="btn btn-secondary glass-btn" style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', color: 'var(--text-dark)' }}>
-                    <User size={18} /> Account
-                  </Link>
-                  <Link to="/cart" className="btn btn-secondary glass-btn" style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', color: 'var(--text-dark)' }}>
-                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                      <ShoppingCart size={18} />
-                      {cartCount > 0 && (
-                        <span style={{
-                          position: 'absolute',
-                          top: '-8px',
-                          right: '-10px',
-                          background: '#ef4444',
-                          color: 'white',
-                          borderRadius: '50%',
-                          width: '18px',
-                          height: '18px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '0.7rem',
-                          fontWeight: 'bold'
-                        }}>
-                          {cartCount}
-                        </span>
-                      )}
-                    </div>
-                    Pickup Basket
-                  </Link>
-                </>
-              )}
-              
-              <button 
-                onClick={() => setCurrentUser(null)} 
-                className="btn btn-secondary glass-btn" 
-                style={{ display: 'flex', gap: '8px', alignItems: 'center', padding: '8px 16px', background: 'rgba(255, 255, 255, 0.4)' }}
-              >
-                <LogOut size={18} /> Logout
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <main>
-          <Routes>
-            <Route path="/" element={currentUser.is_admin ? <AdminDashboard currentUser={currentUser} /> : <Home />} />
-            <Route path="/admin/inventory" element={<AdminInventory currentUser={currentUser} />} />
-            <Route path="/admin/users" element={<AdminUsers currentUser={currentUser} />} />
-            <Route path="/cart" element={<Cart currentUser={currentUser} />} />
-            <Route path="/account" element={<AccountDashboard currentUser={currentUser} onUpdateUser={setCurrentUser} />} />
-            <Route path="/buy" element={<Buy />} />
-            <Route path="/plant/:id" element={<PlantDetail currentUser={currentUser} />} />
-            <Route path="/sell" element={<Sell />} />
-          </Routes>
-        </main>
-
-        <Chatbot />
-      </div>
+      <AppContent 
+        currentUser={currentUser} 
+        setCurrentUser={setCurrentUser} 
+        cartCount={cartCount} 
+        setShowLogin={setShowLogin} 
+      />
     </Router>
   );
 }

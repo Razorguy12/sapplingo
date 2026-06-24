@@ -11,6 +11,18 @@
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   --box-shadow-hover: 0 10px 20px rgba(47, 105, 59, 0.15);
   --transition: all 0.3s ease;
+
+  /* Saplinggo Theme Tokens */
+  --green-900: #1a3a2a;
+  --green-700: #2d6a4f;
+  --green-600: #3d6b42;
+  --green-200: #74c69d;
+  --green-100: #b7e4c7;
+  --green-50:  #d8f3dc;
+  --sage-bg:   #f0f4ef;
+  --sage-card: #ffffff;
+  --sage-border: #d4e0d5;
+  --sage-muted:  #6b8f70;
 }
 
 * {
