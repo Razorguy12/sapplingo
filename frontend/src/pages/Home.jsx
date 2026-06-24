@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Star, Droplets, Sun } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Home = ({ currentUser }) => {
   const [samplePlants, setSamplePlants] = useState([]);
@@ -14,7 +15,7 @@ const Home = ({ currentUser }) => {
     if (!currentUser) return;
     const fetchStats = async () => {
       try {
-        const res = await axios.get(`http://127.0.0.1:8001/api/orders/${currentUser.id}`);
+        const res = await axios.get(`${API_URL}/api/orders/${currentUser.id}`);
         const orders = res.data;
         setOrderCount(orders.length);
         let totalPlants = 0;
@@ -35,15 +36,15 @@ const Home = ({ currentUser }) => {
   }, [currentUser]);
 
   useEffect(() => {
-    const fetchPlants = async () => {
+    const fetchSamplePlants = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/plants?limit=6');
+        const response = await axios.get(`${API_URL}/api/plants?limit=6`);
         setSamplePlants(response.data);
       } catch (error) {
         console.error('Failed to fetch sample plants', error);
       }
     };
-    fetchPlants();
+    fetchSamplePlants();
   }, []);
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Plus, Trash2 } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Sell = () => {
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ const Sell = () => {
     }
     setAiLoading(true);
     try {
-      const response = await axios.post('http://127.0.0.1:8001/api/generate-details', {
+      const response = await axios.post(`${API_URL}/api/generate-details`, {
         plant_name: formData.name
       });
       const data = response.data;
@@ -140,7 +141,7 @@ const Sell = () => {
 
       console.log('Submitting payload:', payload);
 
-      await axios.post('http://127.0.0.1:8001/api/plants', payload);
+      await axios.post(`${API_URL}/api/plants`, payload);
       alert('Plant listed successfully!');
       navigate('/buy');
     } catch (error) {

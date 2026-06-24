@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { API_URL } from './config';
 import Home from './pages/Home';
 import Buy from './pages/Buy';
 import Sell from './pages/Sell';
@@ -16,8 +17,6 @@ import MyPlants from './pages/MyPlants';
 import Chatbot from './components/Chatbot';
 import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box } from 'lucide-react';
 import './styles/dashboard.css';
-
-const API_URL = 'http://127.0.0.1:8001';
 
 // Helper component to handle active link state
 const NavLink = ({ to, icon: Icon, children, badge }) => {

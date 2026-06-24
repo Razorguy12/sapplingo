@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus, ArrowLeft } from 'lucide-react';
+import { API_URL } from '../config';
 
 const AdminInventory = ({ currentUser }) => {
   const [plants, setPlants] = useState([]);
@@ -15,7 +16,7 @@ const AdminInventory = ({ currentUser }) => {
     }
     const fetchPlants = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8001/api/plants');
+        const res = await axios.get(`${API_URL}/api/plants`);
         setPlants(res.data);
       } catch (error) {
         console.error('Error fetching inventory', error);

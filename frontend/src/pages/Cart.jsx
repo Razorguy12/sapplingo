@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ShoppingCart, Trash2, ArrowLeft, CreditCard } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Cart = ({ currentUser }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -18,7 +19,7 @@ const Cart = ({ currentUser }) => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8001/api/cart/${currentUser.id}`);
+      const res = await axios.get(`${API_URL}/api/cart/${currentUser.id}`);
       setCartItems(res.data);
     } catch (error) {
       console.error('Error fetching cart', error);
@@ -29,7 +30,7 @@ const Cart = ({ currentUser }) => {
 
   const removeItem = async (itemId) => {
     try {
-      await axios.delete(`http://127.0.0.1:8001/api/cart/${itemId}`);
+      await axios.delete(`${API_URL}/api/cart/${itemId}`);
       window.dispatchEvent(new Event('cartUpdated'));
       fetchCart();
     } catch (error) {
@@ -39,7 +40,7 @@ const Cart = ({ currentUser }) => {
 
   const handleCheckout = async () => {
     try {
-      await axios.post(`http://127.0.0.1:8001/api/checkout/${currentUser.id}`);
+      await axios.post(`${API_URL}/api/checkout/${currentUser.id}`);
       window.dispatchEvent(new Event('cartUpdated'));
       alert("Pickup slot booked successfully!");
       navigate('/');

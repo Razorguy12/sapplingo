@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { User, Edit, Save, Package, Calendar, Phone, Mail } from 'lucide-react';
+import { API_URL } from '../config';
 
 const AccountDashboard = ({ currentUser, onUpdateUser }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,8 +32,8 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8001/api/orders/${currentUser.id}`);
-      setOrders(res.data);
+      const res = await axios.get(`${API_URL}/api/orders/${currentUser.id}`);
+      setOrders(res.data.reverse());
     } catch (error) {
       console.error('Error fetching orders', error);
     } finally {
@@ -42,7 +43,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
 
   const handleSave = async () => {
     try {
-      const res = await axios.put(`http://127.0.0.1:8001/api/users/${currentUser.id}`, {
+      const res = await axios.put(`${API_URL}/api/users/${currentUser.id}`, {
         name,
         email,
         phone_number: phoneNumber,

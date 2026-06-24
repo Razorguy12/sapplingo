@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Shield, ShieldAlert, ArrowLeft, UserPlus, X } from 'lucide-react';
+import { API_URL } from '../config';
 
 const AdminUsers = ({ currentUser }) => {
   const [users, setUsers] = useState([]);
@@ -22,7 +23,7 @@ const AdminUsers = ({ currentUser }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://127.0.0.1:8001/api/users');
+      const res = await axios.get(`${API_URL}/api/users`);
       setUsers(res.data);
     } catch (error) {
       console.error('Error fetching users', error);
@@ -34,7 +35,7 @@ const AdminUsers = ({ currentUser }) => {
   const deleteUser = async (id, username) => {
     if (window.confirm(`Are you sure you want to delete ${username}?`)) {
       try {
-        await axios.delete(`http://127.0.0.1:8001/api/users/${id}`);
+        await axios.delete(`${API_URL}/api/users/${id}`);
         fetchData();
       } catch (error) {
         alert(error.response?.data?.detail || 'Failed to delete user');
@@ -45,7 +46,7 @@ const AdminUsers = ({ currentUser }) => {
   const makeAdmin = async (id, username) => {
     if (window.confirm(`Grant admin privileges to ${username}?`)) {
       try {
-        await axios.put(`http://127.0.0.1:8001/api/users/${id}/admin`);
+        await axios.put(`${API_URL}/api/users/${id}/admin`);
         fetchData();
       } catch (error) {
         alert(error.response?.data?.detail || 'Failed to grant admin rights');
@@ -57,7 +58,7 @@ const AdminUsers = ({ currentUser }) => {
     e.preventDefault();
     setAddError('');
     try {
-      await axios.post('http://127.0.0.1:8001/api/register', {
+      await axios.post(`${API_URL}/api/register`, {
         ...newUser,
         dob: newUser.dob || null
       });

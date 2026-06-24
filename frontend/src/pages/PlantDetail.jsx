@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Star, Droplets, Sun, Home, Trees, MapPin } from 'lucide-react';
+import { API_URL } from '../config';
 
 const PlantDetail = ({ currentUser }) => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const PlantDetail = ({ currentUser }) => {
   useEffect(() => {
     const fetchPlant = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8001/api/plants/${id}`);
+        const response = await axios.get(`${API_URL}/api/plants/${id}`);
         setPlant(response.data);
         setActiveImage(response.data.image_url);
         setLoading(false);
@@ -43,7 +44,7 @@ const PlantDetail = ({ currentUser }) => {
 
   const handleAddToCart = async () => {
     try {
-      await axios.post('http://127.0.0.1:8001/api/cart', {
+      await axios.post(`${API_URL}/api/cart`, {
         user_id: currentUser.id,
         plant_id: plant.id,
         quantity: 1

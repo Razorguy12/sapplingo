@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Search, Star, Clock } from 'lucide-react';
+import { Search, Star, Clock, Droplets, Sun, Home, Trees } from 'lucide-react';
+import { API_URL } from '../config';
 
 const Buy = () => {
   const [plants, setPlants] = useState([]);
@@ -15,7 +16,7 @@ const Buy = () => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8001/api/plants');
+        const response = await axios.get(`${API_URL}/api/plants`);
         setPlants(response.data);
       } catch (error) {
         console.error('Failed to fetch plants', error);

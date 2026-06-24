@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Star, Leaf, Calendar, ArrowLeft } from 'lucide-react';
+import { API_URL } from '../config';
 
 const MyPlants = ({ currentUser }) => {
   const [plants, setPlants] = useState([]);
@@ -11,7 +12,7 @@ const MyPlants = ({ currentUser }) => {
     if (!currentUser) return;
     const fetchMyPlants = async () => {
       try {
-        const res = await axios.get(`http://127.0.0.1:8001/api/orders/${currentUser.id}`);
+        const res = await axios.get(`${API_URL}/api/orders/${currentUser.id}`);
         const orders = res.data;
         
         // Extract unique plants from all orders

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Leaf, User, Lock, ArrowRight, ArrowLeft, UserPlus, Type, Mail, Phone, Calendar, Eye, EyeOff } from 'lucide-react';
 import '../styles/login.css';
+import { API_URL } from '../config';
 
 const Login = ({ onLogin, onBack }) => {
   const [loginType, setLoginType] = useState('user'); // 'user' or 'nursery'
@@ -25,8 +26,6 @@ const Login = ({ onLogin, onBack }) => {
       document.body.classList.remove('login-page');
     };
   }, []);
-
-  const API_URL = 'http://127.0.0.1:8001';
 
   const handleSubmit = async (e) => {
     e.preventDefault();

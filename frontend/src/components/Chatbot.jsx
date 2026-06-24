@@ -3,6 +3,7 @@ import { MessageCircle, X, Send } from 'lucide-react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { API_URL } from '../config';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8001/api/chat', { 
+      const response = await axios.post(`${API_URL}/api/chat`, { 
         message: userMessage.content,
         history: currentHistory
       });

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 
 const LandingPage = ({ onGetStarted }) => {
   const [plants, setPlants] = useState([]);
@@ -9,7 +10,7 @@ const LandingPage = ({ onGetStarted }) => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8001/api/plants?limit=9');
+        const res = await axios.get(`${API_URL}/api/plants?limit=9`);
         setPlants(res.data);
       } catch (err) {
         console.error('Failed to fetch plants', err);
