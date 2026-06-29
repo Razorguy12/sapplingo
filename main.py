@@ -449,6 +449,8 @@ def seed_db(db: Session = Depends(get_db)):
     # Clear existing data if there are less than 15 plants, and reseed
     plants_with_nursery = db.query(models.Plant).filter(models.Plant.nursery_id != None).count()
     if plants_with_nursery < 15:
+        db.query(models.CartItem).delete()
+        db.query(models.OrderItem).delete()
         db.query(models.Plant).delete()
         samples = [
             models.Plant(nursery_id=nursery_ids[0], name="Monstera Deliciosa", scientific_name="Monstera deliciosa", age="1 year", price=45.0, rating=4.8, image_url="https://imgs.search.brave.com/LbHYx8Fu1hp2nnHodmjb8eU1AySm5_aFfyxQlZpOREk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/dGhlc3BydWNlLmNv/bS90aG1iL2lEMXZV/ck4tN25PbW9hVDl0/a2V6eXpydkdKcz0v/MTUwMHgwL2ZpbHRl/cnM6bm9fdXBzY2Fs/ZSgpOm1heF9ieXRl/cygxNTAwMDApOnN0/cmlwX2ljYygpOmZv/cm1hdCh3ZWJwKS9o/b3ctdG8tZ3Jvdy1t/b25zdGVyYS1kZWxp/Y2lvc2EtNTA3MjY3/MS0wNC05YTIyOTcz/ZTY2MmY0YmE4ODJl/ZWY1ZjE2ZDQwYmNj/OS5qcGc", description="A popular houseplant with striking, holey leaves. Needs bright, indirect light.", climate="Tropical", is_indoor=True, soil_type="Peat-based potting soil", extra_images="https://imgs.search.brave.com/nWcn2SHdQef_-ZMWP-eFBDm-oWsJqmlvmx_soY8fYyU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9oZWFy/dGhhbmR2aW5lLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAx/OC8wNi9pbmRvb3It/Z2FyZGVuaW5nLW1v/bnN0ZXJhLWRlbGlj/aW9zYS1saWdodGVk/LmpwZw,https://imgs.search.brave.com/AXTzZPMbdxC2RS3UUASJ2cTeYIbRR0xVaEI1I6DotTQ/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTIw/Mjc1NzQ2My9waG90/by9tb25zdGVyYS1k/ZWxpY2lvc2EtaG91/c2VwbGFudC1pbi1i/cmlnaHQtc3VubGln/aHQuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPWVIRUFZVkg2/T1VkdUdLbllwSGp4/M2VudERJOXJielFS/NXpfckNQR1BsQk09"),
