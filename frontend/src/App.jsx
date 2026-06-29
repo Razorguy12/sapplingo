@@ -11,11 +11,18 @@ import LandingPage from './pages/LandingPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInventory from './pages/AdminInventory';
 import AdminUsers from './pages/AdminUsers';
+import NurseryDashboard from './pages/NurseryDashboard';
 import Cart from './pages/Cart';
 import AccountDashboard from './pages/AccountDashboard';
 import MyPlants from './pages/MyPlants';
+import NurseryView from './pages/NurseryView';
+import NurseryInventory from './pages/NurseryInventory';
+import SellerView from './pages/SellerView';
+import OrderPage from './pages/OrderPage';
+import NurseryPickups from './pages/NurseryPickups';
+import MyOrders from './pages/MyOrders';
 import Chatbot from './components/Chatbot';
-import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box } from 'lucide-react';
+import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box, Calendar } from 'lucide-react';
 import './styles/dashboard.css';
 
 // Helper component to handle active link state
@@ -57,12 +64,19 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
           <span className="nav-section-label">Main</span>
           <NavLink to="/" icon={LayoutDashboard}>Dashboard</NavLink>
 
-          {!currentUser.is_admin && (
+          {!currentUser.is_admin && currentUser.role !== 'nursery' && (
             <>
               <NavLink to="/buy" icon={ShoppingBag}>Browse Plants</NavLink>
-              {currentUser.role !== 'nursery' && (
-                <NavLink to="/sell" icon={Plus}>Sell a Plant</NavLink>
-              )}
+              <NavLink to="/sell" icon={Plus}>Sell a Plant</NavLink>
+            </>
+          )}
+
+          {currentUser.role === 'nursery' && (
+            <>
+              <span className="nav-section-label">Nursery Hub</span>
+              <NavLink to="/nursery-inventory" icon={Archive}>My Plants</NavLink>
+              <NavLink to="/nursery-list" icon={Plus}>List a New Plant</NavLink>
+              <NavLink to="/nursery-pickups" icon={Calendar}>Pick up slots</NavLink>
             </>
           )}
 
@@ -71,6 +85,7 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
               <span className="nav-section-label">My Plants</span>
               <NavLink to="/my-plants" icon={Archive}>My Collection</NavLink>
               <NavLink to="/cart" icon={ShoppingCart} badge={cartCount > 0 ? cartCount : null}>Pickup Basket</NavLink>
+              <NavLink to="/my-orders" icon={Package}>My Orders</NavLink>
             </>
           )}
 
@@ -129,6 +144,7 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
           <Routes>
             <Route path="/" element={
               currentUser.is_admin ? <AdminDashboard currentUser={currentUser} /> : 
+              currentUser.role === 'nursery' ? <NurseryDashboard currentUser={currentUser} /> :
               <Home currentUser={currentUser} />
             } />
             <Route path="/admin/inventory" element={<AdminInventory currentUser={currentUser} />} />
@@ -137,8 +153,15 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
             <Route path="/account" element={<AccountDashboard currentUser={currentUser} onUpdateUser={setCurrentUser} />} />
             <Route path="/my-plants" element={<MyPlants currentUser={currentUser} />} />
             <Route path="/buy" element={<Buy />} />
+            <Route path="/nursery/:id" element={<NurseryView />} />
+            <Route path="/seller/:id" element={<SellerView />} />
             <Route path="/plant/:id" element={<PlantDetail currentUser={currentUser} />} />
-            <Route path="/sell" element={<Sell />} />
+            <Route path="/sell" element={<Sell currentUser={currentUser} />} />
+            <Route path="/nursery-inventory" element={<NurseryInventory currentUser={currentUser} />} />
+            <Route path="/nursery-list" element={<Sell currentUser={currentUser} />} />
+            <Route path="/order" element={<OrderPage currentUser={currentUser} />} />
+            <Route path="/nursery-pickups" element={<NurseryPickups currentUser={currentUser} />} />
+            <Route path="/my-orders" element={<MyOrders currentUser={currentUser} />} />
           </Routes>
         </div>
       </div>

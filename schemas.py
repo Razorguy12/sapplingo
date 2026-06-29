@@ -3,6 +3,8 @@ from typing import Optional, List
 
 class PlantBase(BaseModel):
     nursery_id: Optional[int] = None
+    user_id: Optional[int] = None
+    quantity: int = 1
     name: str
     scientific_name: str
     age: Optional[str] = None
@@ -113,9 +115,20 @@ class OrderItemResponse(BaseModel):
 class OrderResponse(BaseModel):
     id: int
     user_id: int
+    nursery_id: Optional[int] = None
+    seller_id: Optional[int] = None
     total_amount: float
+    status: str
+    pickup_date: Optional[date] = None
+    pickup_time: Optional[str] = None
+    delivery_type: Optional[str] = None
     created_at: datetime
     items: list[OrderItemResponse]
 
     class Config:
         from_attributes = True
+
+class CheckoutRequest(BaseModel):
+    delivery_type: str
+    pickup_date: Optional[date] = None
+    pickup_time: Optional[str] = None

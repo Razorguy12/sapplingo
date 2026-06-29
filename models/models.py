@@ -7,6 +7,8 @@ class Plant(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nursery_id = Column(Integer, ForeignKey('nurseries.id'), index=True, nullable=True) # made nullable for backwards compatibility
+    user_id = Column(Integer, ForeignKey('users.id'), index=True, nullable=True)
+    quantity = Column(Integer, default=1)
     name = Column(String, index=True, nullable=False)
     scientific_name = Column(String, nullable=False)
     age = Column(String, nullable=True)
@@ -62,7 +64,13 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), index=True, nullable=False)
+    nursery_id = Column(Integer, ForeignKey('nurseries.id'), index=True, nullable=True)
+    seller_id = Column(Integer, ForeignKey('users.id'), index=True, nullable=True)
     total_amount = Column(Float, nullable=False)
+    status = Column(String, default="pending")
+    pickup_date = Column(Date, nullable=True)
+    pickup_time = Column(String, nullable=True)
+    delivery_type = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     items = relationship("OrderItem", back_populates="order")

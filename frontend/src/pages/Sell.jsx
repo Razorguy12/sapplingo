@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Sparkles, Plus, Trash2 } from 'lucide-react';
 import { API_URL } from '../config';
 
-const Sell = () => {
+const Sell = ({ currentUser }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
@@ -19,7 +19,8 @@ const Sell = () => {
     description: '',
     climate: '',
     is_indoor: true,
-    soil_type: ''
+    soil_type: '',
+    quantity: 1
   });
 
   const convertDriveUrl = (url) => {
@@ -134,16 +135,27 @@ const Sell = () => {
       const payload = {
         ...formData,
         price: parseFloat(formData.price),
+        quantity: parseInt(formData.quantity) || 1,
         rating: 5.0,
         image_url: formData.image_url.trim(),
         extra_images: validExtraImages.length > 0 ? validExtraImages.join('|') : ''
       };
 
+      if (currentUser?.role === 'nursery') {
+        payload.nursery_id = currentUser.id;
+      } else if (currentUser) {
+        payload.user_id = currentUser.id;
+      }
+
       console.log('Submitting payload:', payload);
 
       await axios.post(`${API_URL}/api/plants`, payload);
       alert('Plant listed successfully!');
-      navigate('/buy');
+      if (currentUser?.role === 'nursery') {
+        navigate('/nursery-inventory');
+      } else {
+        navigate('/buy');
+      }
     } catch (error) {
       console.error('Error adding plant:', error);
       alert('Failed to list plant. Please check:\n1. All fields are filled\n2. Image URLs are accessible\n3. Google Drive files are shared publicly');
@@ -247,6 +259,19 @@ const Sell = () => {
               className="form-input"
               placeholder="25.00"
               value={formData.price}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label className="form-label">Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              min="1"
+              className="form-input"
+              placeholder="1"
+              value={formData.quantity}
               onChange={handleChange}
               required
             />

@@ -7,6 +7,7 @@ import { API_URL } from '../config';
 const Cart = ({ currentUser }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showPrompt, setShowPrompt] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,15 +39,8 @@ const Cart = ({ currentUser }) => {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      await axios.post(`${API_URL}/api/checkout/${currentUser.id}`);
-      window.dispatchEvent(new Event('cartUpdated'));
-      alert("Pickup slot booked successfully!");
-      navigate('/');
-    } catch (error) {
-      alert('Checkout failed');
-    }
+  const handleOrderNow = () => {
+    setShowPrompt(true);
   };
 
   if (loading) return <div className="container" style={{ padding: '40px', textAlign: 'center' }}>Loading cart...</div>;
@@ -98,9 +92,27 @@ const Cart = ({ currentUser }) => {
                   ${totalAmount.toFixed(2)}
                 </div>
               </div>
-              <button onClick={handleCheckout} className="btn btn-primary glass-btn cart-checkout-btn">
-                <CreditCard size={20} /> Book Pickup Slots
-              </button>
+              
+              {!showPrompt ? (
+                <button onClick={handleOrderNow} className="btn btn-primary glass-btn cart-checkout-btn">
+                  <CreditCard size={20} /> Order Now
+                </button>
+              ) : (
+                <div className="order-prompt" style={{ display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center', width: '100%', padding: '20px', background: 'rgba(255,255,255,0.5)', borderRadius: '12px' }}>
+                  <h3 style={{ margin: 0, color: 'var(--text-dark)' }}>How would you like to proceed?</h3>
+                  <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
+                    <button onClick={() => navigate('/order')} className="btn btn-primary glass-btn" style={{ flex: 1 }}>
+                      Book pick up slots
+                    </button>
+                    <button onClick={() => alert('Delivery scheduling coming soon!')} className="btn glass-btn" style={{ flex: 1 }}>
+                      Schedule delivery
+                    </button>
+                  </div>
+                  <button onClick={() => setShowPrompt(false)} className="btn btn-secondary glass-btn" style={{ width: '100%', marginTop: '10px' }}>
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
