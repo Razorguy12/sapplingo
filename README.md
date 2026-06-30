@@ -15,7 +15,7 @@
 
 ## 📖 Overview
 
-**Sapplingo** (also known as Plantify) is a modern, full-stack multi-vendor marketplace designed exclusively for plant enthusiasts and nurseries. It provides a seamless e-commerce experience for users looking to buy plants and a powerful dashboard for nurseries to manage their inventory. 
+**Sapplingo** is a modern, full-stack multi-vendor marketplace designed exclusively for plant enthusiasts and nurseries. It provides a seamless e-commerce experience for users looking to buy plants and a powerful dashboard for nurseries to manage their inventory. 
 
 To take plant care to the next level, Sapplingo features an **AI-driven Botanical Assistant** powered by the **Groq API** (Qwen3 32B), which helps users with personalized plant maintenance tips and answers all botanical queries.
 
@@ -31,23 +31,7 @@ To take plant care to the next level, Sapplingo features an **AI-driven Botanica
 - **Beautiful & Responsive UI:** Built with React, Tailwind CSS, and Framer Motion for a stunning, glassmorphism-inspired aesthetic with smooth animations.
 - **Dynamic Landing Page:** An engaging homepage featuring interactive 3D elements (Spline) and auto-scrolling plant carousels.
 
----
 
-## 📸 Screenshots
-
-<div align="center">
-  <img src="assets/screenshot1.png" width="800" alt="Sapplingo Screenshot 1">
-  <br/><br/>
-  <img src="assets/screenshot2.png" width="800" alt="Sapplingo Screenshot 2">
-  <br/><br/>
-  <img src="assets/screenshot3.png" width="800" alt="Sapplingo Screenshot 3">
-  <br/><br/>
-  <img src="assets/screenshot4.png" width="800" alt="Sapplingo Screenshot 4">
-  <br/><br/>
-  <img src="assets/screenshot5.png" width="800" alt="Sapplingo Screenshot 5">
-</div>
-
----
 
 ## 🛠️ Technology Stack
 
@@ -80,7 +64,7 @@ Follow these steps to set up the project locally.
 
 1. **Navigate to the backend directory** (root of the project):
    ```bash
-   cd plantify
+   cd sapplingo
    ```
 
 2. **Create and activate a virtual environment:**
@@ -97,7 +81,7 @@ Follow these steps to set up the project locally.
 4. **Set up Environment Variables:**
    Create a `.env` file in the root directory and add:
    ```env
-   DATABASE_URL=postgresql://username:password@localhost/plantify
+   DATABASE_URL=postgresql://username:password@localhost/sapplingo
    GROQ_API_KEY=your_groq_api_key_here
    ```
 
@@ -111,7 +95,7 @@ Follow these steps to set up the project locally.
 
 1. **Navigate to the frontend directory:**
    ```bash
-   cd plantify/frontend
+   cd sapplingo/frontend
    ```
 
 2. **Install Node modules:**
@@ -151,4 +135,24 @@ This will automatically generate a sample nursery and 15 beautiful houseplants w
 
 <div align="center">
   <p>Built with 💚 for Plant Lovers.</p>
+</div>
+
+---
+
+## 📸 App Gallery
+
+<div style="overflow-x: auto; white-space: nowrap; padding: 20px 0;">
+  <table>
+    <tr>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-09-53.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-09.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-16.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-21.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-27.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-30.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-37.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-43.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td><img src="assets/Screenshot%20From%202026-06-30%2021-11-33.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+    </tr>
+  </table>
 </div>
