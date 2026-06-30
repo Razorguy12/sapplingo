@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Leaf, User, Lock, ArrowRight, ArrowLeft, UserPlus, Type, Mail, Phone, Calendar, Eye, EyeOff } from 'lucide-react';
 import '../styles/login.css';
 import { API_URL } from '../config';
+import logo from '../assets/sapplingo_logo.jpeg';
 
 const Login = ({ onLogin, onBack }) => {
   const [loginType, setLoginType] = useState('user'); // 'user' or 'nursery'
@@ -98,7 +99,7 @@ const Login = ({ onLogin, onBack }) => {
       <div className="login-form-side">
         <div className="login-card animate-fade-in">
         <div className="login-logo">
-          <Leaf size={24} color="var(--green-700)" />
+          <img src={logo} alt="Saplinggo" style={{ height: '48px', width: '48px', borderRadius: '50%', objectFit: 'cover' }} />
         </div>
 
         <h1 className="login-title">Welcome to Saplinggo</h1>

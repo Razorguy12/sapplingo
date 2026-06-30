@@ -24,6 +24,7 @@ import MyOrders from './pages/MyOrders';
 import Chatbot from './components/Chatbot';
 import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box, Calendar } from 'lucide-react';
 import './styles/dashboard.css';
+import logo from './assets/sapplingo_logo.jpeg';
 
 // Helper component to handle active link state
 const NavLink = ({ to, icon: Icon, children, badge }) => {
@@ -54,9 +55,7 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
       {/* Sidebar */}
       <div className="sidebar">
         <Link to="/" className="sidebar-logo">
-          <div className="sidebar-logo-icon">
-            <Leaf size={18} color="#74c69d" />
-          </div>
+          <img src={logo} alt="Saplinggo" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover', marginRight: '10px' }} />
           <span className="sidebar-logo-text">Saplinggo</span>
         </Link>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
+import logo from '../assets/sapplingo_logo.jpeg';
 
 const LandingPage = ({ onGetStarted }) => {
   const [plants, setPlants] = useState([]);
@@ -45,7 +46,10 @@ const LandingPage = ({ onGetStarted }) => {
     <div className="landing-page">
       {/* ── Header ── */}
       <header className="landing-header">
-        <div className="landing-logo">🌱 Sapplingo</div>
+        <div className="landing-logo">
+          <img src={logo} alt="Sapplingo" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover', marginRight: '8px', verticalAlign: 'middle' }} />
+          Sapplingo
+        </div>
         <nav className="landing-nav">
           <a href="#browse">Browse Plants</a>
           <a href="#sell">Sell Plants</a>
