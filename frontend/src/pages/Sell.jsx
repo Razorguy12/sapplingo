@@ -33,24 +33,31 @@ const Sell = ({ currentUser }) => {
     let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (match) {
       console.log('Converted (Pattern 1):', match[1]);
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      return `https://lh3.googleusercontent.com/d/${match[1]}=w1000`;
     }
 
     // Pattern 2: ?id={id} format
     match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
     if (match && url.includes('drive.google.com')) {
       console.log('Converted (Pattern 2):', match[1]);
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      return `https://lh3.googleusercontent.com/d/${match[1]}=w1000`;
     }
 
     // Pattern 3: folders/{id}
     match = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
     if (match) {
       console.log('Converted (Pattern 3 - folder):', match[1]);
-      return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      return `https://lh3.googleusercontent.com/d/${match[1]}=w1000`;
     }
 
-    // If it's already a proper URL, return as is
+    // If it's already a proper URL or uc?export=view (which we should also convert if possible)
+    if (url.includes('drive.google.com/uc') || url.includes('drive.google.com/thumbnail')) {
+      let ucMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (ucMatch) {
+        return `https://lh3.googleusercontent.com/d/${ucMatch[1]}=w1000`;
+      }
+    }
+
     if (url.startsWith('http') || url.startsWith('https')) {
       console.log('URL already valid:', url);
       return url;
