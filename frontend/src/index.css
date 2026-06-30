@@ -351,6 +351,18 @@ body::before {
   outline: none;
 }
 
+.account-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .account-fields-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .search-btn {
   background: var(--primary-color);
   color: white;

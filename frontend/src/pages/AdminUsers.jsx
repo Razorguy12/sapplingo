@@ -140,18 +140,18 @@ const AdminUsers = ({ currentUser }) => {
         ) : (
           <div style={{ display: 'grid', gap: '15px' }}>
             {users.map(user => (
-              <div key={user.id} className="glass-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 20px' }}>
-                <div>
+              <div key={user.id} className="glass-card" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '12px', padding: '15px 20px' }}>
+                <div style={{ minWidth: 0, wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
                   <strong style={{ display: 'block', fontSize: '1.1rem', color: 'var(--text-dark)' }}>{user.name} {user.is_admin && <Shield size={16} color="var(--primary-color)" display="inline" />}</strong>
                   <span style={{ color: 'var(--text-light)', fontSize: '0.9rem' }}>@{user.username}</span>
                 </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                   {!user.is_admin && (
-                    <button onClick={() => makeAdmin(user.id, user.username)} className="btn glass-btn" style={{ padding: '8px 12px', display: 'flex', gap: '5px', alignItems: 'center', color: 'var(--primary-color)' }}>
+                    <button onClick={() => makeAdmin(user.id, user.username)} className="btn glass-btn" style={{ padding: '8px 12px', display: 'flex', gap: '5px', alignItems: 'center', color: 'var(--primary-color)', whiteSpace: 'nowrap' }}>
                       <ShieldAlert size={16} /> Make Admin
                     </button>
                   )}
-                  <button onClick={() => deleteUser(user.id, user.username)} className="btn glass-btn" style={{ padding: '8px 12px', display: 'flex', gap: '5px', alignItems: 'center', color: '#ef4444' }}>
+                  <button onClick={() => deleteUser(user.id, user.username)} className="btn glass-btn" style={{ padding: '8px 12px', display: 'flex', gap: '5px', alignItems: 'center', color: '#ef4444', whiteSpace: 'nowrap' }}>
                     <Trash2 size={16} /> Delete
                   </button>
                 </div>

@@ -23,7 +23,9 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
     width: '100%',
     fontFamily: 'inherit',
     outline: 'none',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    wordBreak: 'break-word',
+    overflowWrap: 'anywhere'
   };
 
   useEffect(() => {
@@ -78,7 +80,7 @@ const AccountDashboard = ({ currentUser, onUpdateUser }) => {
           )}
         </div>
         <div className="panel-body">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <div className="account-fields-grid">
             <div className="form-group" style={{ marginBottom: '0' }}>
               <label className="form-label" style={{ fontSize: '12px', color: '#6b8f70' }}>Full Name</label>
               {isEditing ? (

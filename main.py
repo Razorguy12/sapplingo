@@ -12,21 +12,35 @@ from datetime import date
 
 models.Base.metadata.create_all(bind=engine)
 
+from sqlalchemy import inspect
+
 # Auto-migrate missing columns for Render deployment
 try:
-    with engine.begin() as conn:
-        conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS nursery_id INTEGER REFERENCES nurseries(id);"))
-        conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id);"))
-        conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS quantity INTEGER DEFAULT 1;"))
-        
-        # Orders table migrations
-        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS nursery_id INTEGER REFERENCES nurseries(id);"))
-        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS seller_id INTEGER REFERENCES users(id);"))
-        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS pickup_date DATE;"))
-        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS pickup_time VARCHAR;"))
-        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivery_type VARCHAR;"))
+    inspector = inspect(engine)
+    def add_column_if_not_exists(table_name, column_name, column_type):
+        try:
+            columns = [col['name'] for col in inspector.get_columns(table_name)]
+            if column_name not in columns:
+                with engine.begin() as conn:
+                    conn.execute(text(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}"))
+                    print(f"Added {column_name} to {table_name}")
+        except Exception as e:
+            print(f"Failed to add {column_name} to {table_name}: {e}")
+
+    add_column_if_not_exists("plants", "nursery_id", "INTEGER REFERENCES nurseries(id)")
+    add_column_if_not_exists("plants", "user_id", "INTEGER REFERENCES users(id)")
+    add_column_if_not_exists("plants", "quantity", "INTEGER DEFAULT 1")
+    
+    add_column_if_not_exists("orders", "nursery_id", "INTEGER REFERENCES nurseries(id)")
+    add_column_if_not_exists("orders", "seller_id", "INTEGER REFERENCES users(id)")
+    add_column_if_not_exists("orders", "pickup_date", "DATE")
+    add_column_if_not_exists("orders", "pickup_time", "VARCHAR")
+    add_column_if_not_exists("orders", "delivery_type", "VARCHAR")
+    add_column_if_not_exists("orders", "created_at", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    
+    add_column_if_not_exists("order_items", "price", "FLOAT DEFAULT 0.0")
 except Exception as e:
-    print(f"Skipping auto-migration: {e}")
+    print(f"Skipping auto-migration setup: {e}")
 
 app = FastAPI(title="Saplinggo API")
 
