@@ -18,6 +18,13 @@ try:
         conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS nursery_id INTEGER REFERENCES nurseries(id);"))
         conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id);"))
         conn.execute(text("ALTER TABLE plants ADD COLUMN IF NOT EXISTS quantity INTEGER DEFAULT 1;"))
+        
+        # Orders table migrations
+        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS nursery_id INTEGER REFERENCES nurseries(id);"))
+        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS seller_id INTEGER REFERENCES users(id);"))
+        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS pickup_date DATE;"))
+        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS pickup_time VARCHAR;"))
+        conn.execute(text("ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivery_type VARCHAR;"))
 except Exception as e:
     print(f"Skipping auto-migration: {e}")
 
