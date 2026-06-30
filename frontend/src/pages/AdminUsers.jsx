@@ -73,7 +73,7 @@ const AdminUsers = ({ currentUser }) => {
   if (!currentUser?.is_admin) return null;
 
   return (
-    <div className="container animate-fade-in" style={{ padding: '40px 20px' }}>
+    <div className="admin-users-page container animate-fade-in">
       <Link to="/" className="btn btn-secondary glass-btn" style={{ marginBottom: '20px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
         <ArrowLeft size={18} /> Back to Control Center
       </Link>

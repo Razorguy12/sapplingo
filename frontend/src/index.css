@@ -980,6 +980,21 @@ body::before {
     border-radius: 0;
     border: none;
   }
+  .admin-users-page.container {
+    margin: -16px !important;
+    width: calc(100% + 32px) !important;
+    max-width: none !important;
+    padding: 16px !important;
+  }
+  .admin-users-page .glass-panel {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+.admin-users-page {
+  padding: 40px 20px;
 }
 
 /* Cart Responsiveness */
