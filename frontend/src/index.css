@@ -344,6 +344,7 @@ body::before {
 
 .search-input {
   flex: 1;
+  min-width: 0;
   padding: 16px 24px;
   border: none;
   font-size: 1rem;
@@ -361,6 +362,16 @@ body::before {
 
 .search-btn:hover {
   background: #24522f;
+}
+
+@media (max-width: 480px) {
+  .search-input {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+  .search-btn {
+    padding: 0 16px;
+  }
 }
 
 .plant-matrix {
@@ -774,6 +785,12 @@ body::before {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
+}
+
+@media (max-width: 600px) {
+  .characteristics-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .char-item {
