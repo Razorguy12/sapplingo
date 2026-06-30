@@ -962,9 +962,23 @@ body::before {
   .range-slider {
     flex: 1;
   }
-  .login-box, .sell-form {
+  .login-box {
     max-width: 90%;
     width: 100%;
+  }
+  .sell-page.container {
+    margin: -16px !important;
+    width: calc(100% + 32px) !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .sell-form {
+    max-width: 100%;
+    width: 100%;
+    min-height: calc(100vh - 60px);
+    padding: 30px 20px;
+    border-radius: 0;
+    border: none;
   }
 }
 
