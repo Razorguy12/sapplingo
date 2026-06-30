@@ -22,7 +22,7 @@ import OrderPage from './pages/OrderPage';
 import NurseryPickups from './pages/NurseryPickups';
 import MyOrders from './pages/MyOrders';
 import Chatbot from './components/Chatbot';
-import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box, Calendar } from 'lucide-react';
+import { Leaf, LogOut, Shield, ShoppingCart, User, Package, Search, Plus, LayoutDashboard, ShoppingBag, Archive, Users, Box, Calendar, Menu, X } from 'lucide-react';
 import './styles/dashboard.css';
 import logo from './assets/sapplingo_logo.jpeg';
 
@@ -41,6 +41,13 @@ const NavLink = ({ to, icon: Icon, children, badge }) => {
 
 // Inner App component to use useLocation hook
 function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [location.pathname]);
+
   const getInitials = (name) => {
     if (!name) return 'U';
     return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
@@ -53,11 +60,16 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
   return (
     <div className="app-container">
       {/* Sidebar */}
-      <div className="sidebar">
-        <Link to="/" className="sidebar-logo">
-          <img src={logo} alt="Saplinggo" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover', marginRight: '10px' }} />
-          <span className="sidebar-logo-text">Saplinggo</span>
-        </Link>
+      <div className={`sidebar ${mobileNavOpen ? 'open' : ''}`}>
+        <div className="sidebar-logo-row">
+          <Link to="/" className="sidebar-logo">
+            <img src={logo} alt="Saplinggo" style={{ height: '32px', width: '32px', borderRadius: '50%', objectFit: 'cover', marginRight: '10px' }} />
+            <span className="sidebar-logo-text">Saplinggo</span>
+          </Link>
+          <button className="sidebar-close" onClick={() => setMobileNavOpen(false)} aria-label="Close menu">
+            <X size={20} />
+          </button>
+        </div>
 
         <nav className="sidebar-nav">
           <span className="nav-section-label">Main</span>
@@ -114,9 +126,17 @@ function AppContent({ currentUser, setCurrentUser, cartCount, setShowLogin }) {
         </div>
       </div>
 
+      {/* Mobile overlay, shown behind the sidebar when open */}
+      {mobileNavOpen && (
+        <div className="sidebar-overlay" onClick={() => setMobileNavOpen(false)} />
+      )}
+
       {/* Main Content */}
       <div className="main">
         <div className="topbar">
+          <button className="hamburger-btn" onClick={() => setMobileNavOpen(true)} aria-label="Open menu">
+            <Menu size={22} />
+          </button>
           <div className="topbar-greeting">Hi, <span>{currentUser.nursery_name || currentUser.name}</span></div>
           <div className="topbar-actions">
             {!currentUser.is_admin && currentUser.role !== 'nursery' && (

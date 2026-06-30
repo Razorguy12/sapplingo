@@ -460,6 +460,27 @@ body::before {
   z-index: 1000;
 }
 
+@media (max-width: 768px) {
+  .chat-widget {
+    bottom: 20px;
+    right: 16px;
+  }
+  .chat-btn {
+    width: 52px;
+    height: 52px;
+  }
+  .chat-window {
+    bottom: 64px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    min-width: 0;
+    width: calc(100vw - 32px);
+    max-width: 400px;
+    height: 70vh;
+  }
+}
+
 .chat-btn {
   width: 60px;
   height: 60px;

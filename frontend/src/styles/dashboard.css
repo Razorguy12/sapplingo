@@ -483,50 +483,107 @@
 .reminder-urgency.soon   { background: #e8f0e9; color: #2d6a4f; }
 
 /* =====================
-   RESPONSIVE — Bottom Navigation on Mobile (≤768px)
+   RESPONSIVE — Slide-in Sidebar on Mobile (≤768px)
    ===================== */
+
+/* Hamburger button: hidden on desktop, shown on mobile */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #1a3a2a;
+  padding: 4px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  padding: 4px;
+  align-items: center;
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
 @media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    height: 70px;
-    top: auto;
-    bottom: 0;
-    flex-direction: row;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+  .hamburger-btn {
+    display: flex;
   }
-  
+
+  .sidebar {
+    left: -260px;
+    width: 240px;
+    height: 100vh;
+    top: 0;
+    bottom: auto;
+    flex-direction: column;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+    transition: left 0.25s ease;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-close {
+    display: flex;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 99;
+  }
+
   .sidebar-logo,
   .sidebar-user,
   .nav-section-label,
   .nav-badge,
   .sidebar-logout span {
-    display: none; /* Hide non-essential nav elements on mobile */
+    display: flex;
   }
-  
+  .nav-section-label {
+    display: block;
+  }
+
   .sidebar-nav {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0;
-    width: 100%;
-    overflow: visible;
-  }
-  
-  .nav-link {
     flex-direction: column;
-    gap: 4px;
-    padding: 8px 12px;
-    font-size: 10px;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 16px 12px;
+    width: 100%;
+    overflow-y: auto;
   }
-  
+
+  .nav-link {
+    flex-direction: row;
+    gap: 10px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    justify-content: flex-start;
+  }
+
   .nav-link svg {
     margin: 0;
   }
-  
+
   .main {
     margin-left: 0;
-    padding-bottom: 70px; /* Space for bottom nav */
   }
   
   .topbar {
