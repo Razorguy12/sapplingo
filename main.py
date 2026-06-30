@@ -33,6 +33,7 @@ try:
     
     add_column_if_not_exists("orders", "nursery_id", "INTEGER REFERENCES nurseries(id)")
     add_column_if_not_exists("orders", "seller_id", "INTEGER REFERENCES users(id)")
+    add_column_if_not_exists("orders", "status", "VARCHAR DEFAULT 'pending'")
     add_column_if_not_exists("orders", "pickup_date", "DATE")
     add_column_if_not_exists("orders", "pickup_time", "VARCHAR")
     add_column_if_not_exists("orders", "delivery_type", "VARCHAR")
@@ -387,7 +388,7 @@ def checkout_cart(user_id: int, request: schemas.CheckoutRequest, db: Session = 
     new_orders = []
     
     for (n_id, s_id), items in grouped_items.items():
-        total_amount = sum([i.quantity * i.plant.price for i in items])
+        total_amount = sum([i.quantity * (i.plant.price if i.plant.price is not None else 0.0) for i in items])
         
         new_order = models.Order(
             user_id=user_id, 
@@ -408,12 +409,13 @@ def checkout_cart(user_id: int, request: schemas.CheckoutRequest, db: Session = 
                 order_id=new_order.id,
                 plant_id=item.plant_id,
                 quantity=item.quantity,
-                price=item.plant.price
+                price=item.plant.price if item.plant.price is not None else 0.0
             )
             db.add(order_item)
             
             # Deduct quantity from plant
-            item.plant.quantity = max(0, item.plant.quantity - item.quantity)
+            current_qty = item.plant.quantity if item.plant.quantity is not None else 1
+            item.plant.quantity = max(0, current_qty - item.quantity)
             
         new_orders.append(new_order)
         
