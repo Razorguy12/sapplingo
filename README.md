@@ -141,18 +141,22 @@ This will automatically generate a sample nursery and 15 beautiful houseplants w
 
 ## 📸 App Gallery
 
-<div style="overflow-x: auto; white-space: nowrap; padding: 20px 0;">
+<div align="center">
   <table>
     <tr>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-09-53.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-09.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-16.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-21.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-27.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-30.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-37.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-10-43.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
-      <td><img src="assets/Screenshot%20From%202026-06-30%2021-11-33.png" width="500" style="border-radius: 12px; margin-right: 10px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-09-53.png" width="300" style="border-radius: 8px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-09.png" width="300" style="border-radius: 8px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-16.png" width="300" style="border-radius: 8px;"></td>
+    </tr>
+    <tr>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-21.png" width="300" style="border-radius: 8px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-27.png" width="300" style="border-radius: 8px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-30.png" width="300" style="border-radius: 8px;"></td>
+    </tr>
+    <tr>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-37.png" width="300" style="border-radius: 8px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-10-43.png" width="300" style="border-radius: 8px;"></td>
+      <td align="center"><img src="assets/Screenshot%20From%202026-06-30%2021-11-33.png" width="300" style="border-radius: 8px;"></td>
     </tr>
   </table>
 </div>
